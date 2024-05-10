@@ -10,15 +10,12 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \
     git \
+    npm \
+    nodejs \
     && rm -rf /var/lib/apt/lists/*
-# Install PHP extensions
-RUN docker-php-ext-install pdo pdo_mysql
 
-#install npm and nodejs
-RUN apt-get update && apt-get install -y \
-    npm\
-    nodejs\
-    && rm -rf /var/lib/apt/lists/*
+# Install PHP extensions for mysql
+RUN docker-php-ext-install pdo pdo_mysql
 
 # verify instalation npm 
 RUN npm -v
@@ -31,6 +28,10 @@ RUN mkdir -p /var/www/html && \
 # swich user
 USER haipiggi
 
-#set working directory
+# set working directory
 WORKDIR /var/www/html
 
+# add label
+LABEL maintainer="leonardobryan32@gmail.com"
+LABEL description="This is a Dockerfile for setting up a PHP environment with Composer, npm, and Node.js"
+LABEL version="1.0"
